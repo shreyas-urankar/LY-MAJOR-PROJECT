@@ -39,7 +39,7 @@ function Reports() {
             AI-powered analysis and insights for data-driven urban planning and sustainable development
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {reports.map(report => (
             <div key={report.id} className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-200 group">
@@ -49,7 +49,7 @@ function Reports() {
                   {report.type}
                 </span>
               </div>
-              
+
               <div className="mb-4">
                 <h3 className="font-semibold text-gray-900 text-lg mb-2 group-hover:text-blue-600 transition-colors">
                   {report.title}
@@ -58,7 +58,7 @@ function Reports() {
                   {report.description}
                 </p>
               </div>
-              
+
               <div className="flex items-center justify-between mt-6">
                 <span className="text-gray-500 text-sm">
                   {report.date}

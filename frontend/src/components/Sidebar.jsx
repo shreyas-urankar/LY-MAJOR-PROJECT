@@ -1,33 +1,22 @@
-import { Link, useLocation } from "react-router-dom";
+import React from "react";
+import { Navigate } from "react-router-dom";
 
-function Sidebar() {
-  const location = useLocation();
+const ProtectedRoute = ({ children }) => {
+  const user = localStorage.getItem("user");
+  const token = localStorage.getItem("token");
 
-  const menuItems = [
-    { path: "/dashboard", icon: "📊", label: "Overview", description: "Main dashboard" },
-    { path: "/population", icon: "👥", label: "Population", description: "Demographic data" },
-    { path: "/infrastructure", icon: "🏗️", label: "Infrastructure", description: "Urban development" },
-    { path: "/environment", icon: "🌿", label: "Environment", description: "Green spaces & sustainability" },
-    { path: "/transport", icon: "🚗", label: "Transport", description: "Mobility & traffic" },
-    { path: "/reports", icon: "📄", label: "Reports", description: "Analytics & insights" },
-    { path: "/settings", icon: "⚙️", label: "Settings", description: "System configuration" },
-  ];
+  // Check if user is authenticated
+  const isAuthenticated = user && token;
 
-  const isActive = (path) => location.pathname === path;
+  if (!isAuthenticated) {
+    // Redirect to login if not authenticated
+    return <Navigate to="/login" replace />;
+  }
 
-  return (
-    <div className="w-64 bg-white border-r border-gray-200 h-full">
-      {/* Sidebar Header */}
-      <div className="p-6 border-b border-gray-200">
-        <div className="flex items-center space-x-3">
-          <div className="text-2xl">🏙️</div>
-          <div>
-            <h2 className="font-semibold text-gray-900">Urban Analytics</h2>
-            <p className="text-sm text-gray-500">Navigation</p>
-          </div>
-        </div>
-      </div>
+  return children;
+};
 
+<<<<<<< HEAD
       {/* Menu Items */}
       <nav className="p-4 space-y-2">
         {menuItems.map((item) => (
@@ -79,3 +68,6 @@ function Sidebar() {
 export default Sidebar;
 
 // .
+=======
+export default ProtectedRoute;
+>>>>>>> be45193 (.)

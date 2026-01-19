@@ -2,13 +2,12 @@ import streamlit as st
 import sys
 import os
 import requests
-import urllib.parse
 
 # Add current directory to Python path
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(BASE_DIR)
 
-from utils import get_token, decode_token
+from utils import get_token
 
 # ---------------------------
 # Streamlit Page Config
@@ -27,21 +26,13 @@ st.set_page_config(
 def main():
     st.sidebar.title("🏙️ Urban Growth Analytics")
     st.sidebar.markdown("---")
-    
-    # Get token from URL or session
+
+    # Check authentication
     token = get_token()
-    
+
     if token:
-        try:
-            # Validate token
-            decoded = decode_token(token)
-            if decoded:
-                # User is authenticated → go to dashboard
-                st.switch_page("pages/dashboard.py")
-            else:
-                show_welcome_page()
-        except:
-            show_welcome_page()
+        # User is logged in → go to dashboard
+        st.switch_page("pages/dashboard.py")
     else:
         # User is not logged in → show welcome
         show_welcome_page()
@@ -135,7 +126,7 @@ def show_welcome_page():
                 missing.append("Model file")
             if not os.path.exists(data_path):
                 missing.append("Prediction data")
-            st.warning("⚠️ Missing: " + ", ".join(missing) + "\n\nRunning in demonstration mode.")
+            st.error("❌ Missing: " + ", ".join(missing))
 
 # ---------------------------
 # Run App

@@ -10,12 +10,6 @@ function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Get streamlit URL with authentication
-  const getStreamlitUrl = () => {
-    if (!token) return "http://localhost:8501";
-    return `http://localhost:8501?username=${encodeURIComponent(username)}&token=${encodeURIComponent(token)}`;
-  };
-
   const handleLogout = async () => {
     try {
       await axios.post("http://localhost:5000/api/data", {
@@ -91,57 +85,56 @@ function Dashboard() {
   }
 
   return (
-    <div className="flex min-h-screen">
-      <Sidebar />
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <div className="bg-white border-b border-gray-200 shadow-sm">
-          <div className="px-6 py-4">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">Urban Growth Analytics</h1>
-                <p className="text-gray-600 mt-1">
-                  Welcome back, <span className="text-blue-600 font-semibold">{username}</span> • Last updated: {new Date().toLocaleString()}
-                </p>
-              </div>
-              <div className="flex items-center space-x-4 mt-4 lg:mt-0">
-                <button className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors flex items-center space-x-2">
-                  <span>📅</span>
-                  <span>This Month</span>
-                </button>
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2">
-                  <span>📥</span>
-                  <span>Export Report</span>
-                </button>
-                <button 
-                  onClick={handleLogout}
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-2"
-                >
-                  <span>🚪</span>
-                  <span>Logout</span>
-                </button>
-              </div>
+    <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="bg-white border-b border-gray-200 shadow-sm">
+        <div className="px-6 py-4">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">Urban Growth Analytics</h1>
+              <p className="text-gray-600 mt-1">
+                Welcome back, <span className="text-blue-600 font-semibold">{username}</span> • Last updated: {new Date().toLocaleString()}
+              </p>
             </div>
-          </div>
-
-          <div className="px-6 pb-4">
-            <div className="flex space-x-1 bg-gray-100 rounded-xl p-1">
-              {["overview", "population", "infrastructure", "environment", "reports"].map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all ${
-                    activeTab === tab
-                      ? "bg-white text-blue-600 shadow-sm"
-                      : "text-gray-600 hover:text-gray-900"
-                  }`}
-                >
-                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
-                </button>
-              ))}
+            <div className="flex items-center space-x-4 mt-4 lg:mt-0">
+              <button className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors flex items-center space-x-2">
+                <span>📅</span>
+                <span>This Month</span>
+              </button>
+              <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2">
+                <span>📥</span>
+                <span>Export Report</span>
+              </button>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-2"
+              >
+                <span>🚪</span>
+                <span>Logout</span>
+              </button>
             </div>
           </div>
         </div>
 
+        <div className="px-6 pb-4">
+          <div className="flex space-x-1 bg-gray-100 rounded-xl p-1">
+            {["overview", "population", "infrastructure", "environment", "reports"].map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all ${activeTab === tab
+                    ? "bg-white text-blue-600 shadow-sm"
+                    : "text-gray-600 hover:text-gray-900"
+                  }`}
+              >
+                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="flex min-h-screen">
+        <Sidebar />
         <div className="flex-1 overflow-auto p-6">
           {/* Streamlit Dashboard with username parameter */}
           <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
@@ -158,12 +151,11 @@ function Dashboard() {
               </div>
             </div>
             <iframe
-              src={getStreamlitUrl()}
+              src={`http://localhost:8501?username=${encodeURIComponent(username)}`}
               width="100%"
               height="800px"
               className="border-0"
               title="Streamlit Dashboard"
-              allowFullScreen
             />
           </div>
         </div>

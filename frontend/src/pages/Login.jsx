@@ -44,13 +44,13 @@ function Login() {
             Sign in to access AI Urban Growth Dashboard
           </p>
         </div>
-        
+
         {error && (
           <div className="mb-4 p-3 bg-red-500/20 border border-red-500/50 rounded-lg text-red-200 text-sm">
             {error}
           </div>
         )}
-        
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label htmlFor="username" className="block text-white font-medium mb-2 text-left">
@@ -65,7 +65,7 @@ function Login() {
               className="w-full px-4 py-3 rounded-xl border border-white/20 bg-white/10 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all"
             />
           </div>
-          
+
           <div>
             <label htmlFor="password" className="block text-white font-medium mb-2 text-left">
               Password
@@ -79,7 +79,7 @@ function Login() {
               className="w-full px-4 py-3 rounded-xl border border-white/20 bg-white/10 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all"
             />
           </div>
-          
+
           <button
             type="submit"
             className="w-full bg-white text-blue-900 py-3 rounded-xl font-semibold hover:bg-blue-50 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
@@ -87,7 +87,7 @@ function Login() {
             Sign In
           </button>
         </form>
-        
+
         <div className="mt-6 text-center">
           <p className="text-blue-200 text-sm">
             Don't have an account?{" "}
@@ -96,7 +96,7 @@ function Login() {
             </Link>
           </p>
         </div>
-        
+
         <div className="mt-8 pt-8 border-t border-white/20">
           <div className="grid grid-cols-3 gap-4 text-center">
             <div className="text-white">
