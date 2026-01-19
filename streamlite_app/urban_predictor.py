@@ -14,6 +14,7 @@ class UrbanGrowthPredictor:
         self.metrics = None
         
         # Define paths - using the same logic as update_predictions.py
+        # .
         current_dir = os.path.dirname(os.path.abspath(__file__))
         project_root = Path(current_dir).parent
         self.base_path = project_root  # "C:\Users\Lenovo\Desktop\LY MAJOR PROJECT"

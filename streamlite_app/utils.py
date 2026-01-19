@@ -9,6 +9,7 @@ def get_token():
     """Get token from URL params or session state"""
     try:
         # Try to get from URL parameters first (from React iframe)
+        # .
         query_params = st.query_params
         
         # Get token from URL

@@ -18,6 +18,7 @@ MAPS_DIR = OUTPUTS_DIR / "maps"
 CHARTS_DIR = OUTPUTS_DIR / "charts"
 
 # Create directories safely
+# .
 for d in [
     PROCESSED_DIR, PATCHES_DIR, MODELS_DIR,
     PREDICTIONS_DIR, MAPS_DIR, CHARTS_DIR
