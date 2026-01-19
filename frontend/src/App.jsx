@@ -6,8 +6,9 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Reports from "./pages/Reports";
-import PopulationDashboard from "./components/PopulationDashboard"; // ← Added import
+import PopulationDashboard from "./components/PopulationDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Transport from "./pages/Transport"; // Make sure this import exists
 
 function App() {
   return (
@@ -84,8 +85,12 @@ function App() {
                 <div className="flex min-h-screen">
                   <Sidebar />
                   <div className="flex-1 p-8 bg-gray-50">
-                    <h1 className="text-3xl font-bold text-gray-900">Infrastructure Analytics</h1>
-                    <p className="text-gray-600">Urban infrastructure insights coming soon...</p>
+                    <h1 className="text-3xl font-bold text-gray-900">
+                      Infrastructure Analytics
+                    </h1>
+                    <p className="text-gray-600">
+                      Urban infrastructure insights coming soon...
+                    </p>
                   </div>
                 </div>
               </ProtectedRoute>
@@ -99,24 +104,26 @@ function App() {
                 <div className="flex min-h-screen">
                   <Sidebar />
                   <div className="flex-1 p-8 bg-gray-50">
-                    <h1 className="text-3xl font-bold text-gray-900">Environmental Analytics</h1>
-                    <p className="text-gray-600">Sustainability and environmental data coming soon...</p>
+                    <h1 className="text-3xl font-bold text-gray-900">
+                      Environmental Analytics
+                    </h1>
+                    <p className="text-gray-600">
+                      Sustainability and environmental data coming soon...
+                    </p>
                   </div>
                 </div>
               </ProtectedRoute>
             }
           />
 
+          {/* ✅ FIXED: Changed from /transports to /transport (without 's') */}
           <Route
             path="/transport"
             element={
               <ProtectedRoute>
                 <div className="flex min-h-screen">
                   <Sidebar />
-                  <div className="flex-1 p-8 bg-gray-50">
-                    <h1 className="text-3xl font-bold text-gray-900">Transport Analytics</h1>
-                    <p className="text-gray-600">Transportation and mobility data coming soon...</p>
-                  </div>
+                  <Transport />
                 </div>
               </ProtectedRoute>
             }
@@ -130,7 +137,9 @@ function App() {
                   <Sidebar />
                   <div className="flex-1 p-8 bg-gray-50">
                     <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
-                    <p className="text-gray-600">System configuration coming soon...</p>
+                    <p className="text-gray-600">
+                      System configuration coming soon...
+                    </p>
                   </div>
                 </div>
               </ProtectedRoute>
