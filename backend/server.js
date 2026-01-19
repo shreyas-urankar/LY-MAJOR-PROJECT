@@ -8,7 +8,11 @@ import connectDB from "./config/db.js";
 import dataRoutes from "./routes/dataRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import populationRoutes from "./routes/populationRoutes.js";
+<<<<<<< HEAD
 import transportRoutes from "./routes/transportRoutes.js";
+=======
+import transportRoutes from "./routes/transportRoutes.js"; // Add this line
+>>>>>>> becfcb02e043debd78e887bcdc7429cbfeaddfb9
 
 dotenv.config();
 
@@ -32,8 +36,16 @@ app.get("/", (req, res) => {
 app.use("/api/data", dataRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/population", populationRoutes);
+<<<<<<< HEAD
 app.use("/api/transport", transportRoutes);
 
 app.listen(PORT, () => {
   console.log(`🌍 Server running on http://localhost:${PORT}`);
 });
+=======
+app.use("/api/transport", transportRoutes); // Add this line
+
+app.listen(PORT, () => {
+  console.log(`🌍 Server running on http://localhost:${PORT}`);
+});
+>>>>>>> becfcb02e043debd78e887bcdc7429cbfeaddfb9

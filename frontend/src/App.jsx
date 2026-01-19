@@ -8,8 +8,12 @@ import Dashboard from "./pages/Dashboard";
 import Reports from "./pages/Reports";
 import PopulationDashboard from "./components/PopulationDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+<<<<<<< HEAD
 import Transport from "./pages/Transport";
 import Environment from "./pages/Environment";
+=======
+import Transport from "./pages/Transport"; // Make sure this import exists
+>>>>>>> becfcb02e043debd78e887bcdc7429cbfeaddfb9
 
 function App() {
   return (
@@ -107,13 +111,28 @@ function App() {
               <ProtectedRoute>
                 <div className="flex min-h-screen">
                   <Sidebar />
+<<<<<<< HEAD
                   <Environment />
+=======
+                  <div className="flex-1 p-8 bg-gray-50">
+                    <h1 className="text-3xl font-bold text-gray-900">
+                      Environmental Analytics
+                    </h1>
+                    <p className="text-gray-600">
+                      Sustainability and environmental data coming soon...
+                    </p>
+                  </div>
+>>>>>>> becfcb02e043debd78e887bcdc7429cbfeaddfb9
                 </div>
               </ProtectedRoute>
             }
           />
 
+<<<<<<< HEAD
           {/* Transport – actual component */}
+=======
+          {/* ✅ FIXED: Changed from /transports to /transport (without 's') */}
+>>>>>>> becfcb02e043debd78e887bcdc7429cbfeaddfb9
           <Route
             path="/transport"
             element={
