@@ -8,7 +8,8 @@ import Dashboard from "./pages/Dashboard";
 import Reports from "./pages/Reports";
 import PopulationDashboard from "./components/PopulationDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Environment from "./pages/Environment"; // Import the Environment component
+import Transport from "./pages/Transport";
+import Environment from "./pages/Environment";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
           {/* Redirect root to login */}
           <Route path="/" element={<Navigate to="/login" replace />} />
 
-          {/* Login page - show navbar */}
+          {/* Login page */}
           <Route
             path="/login"
             element={
@@ -29,7 +30,7 @@ function App() {
             }
           />
 
-          {/* Register page - show navbar */}
+          {/* Register page */}
           <Route
             path="/register"
             element={
@@ -40,7 +41,7 @@ function App() {
             }
           />
 
-          {/* Protected routes - no navbar (they have sidebar) */}
+          {/* Dashboard */}
           <Route
             path="/dashboard"
             element={
@@ -53,6 +54,7 @@ function App() {
             }
           />
 
+          {/* Reports */}
           <Route
             path="/reports"
             element={
@@ -65,7 +67,7 @@ function App() {
             }
           />
 
-          {/* Population route - now shows the real dashboard */}
+          {/* Population */}
           <Route
             path="/population"
             element={
@@ -78,6 +80,7 @@ function App() {
             }
           />
 
+          {/* Infrastructure */}
           <Route
             path="/infrastructure"
             element={
@@ -85,42 +88,45 @@ function App() {
                 <div className="flex min-h-screen">
                   <Sidebar />
                   <div className="flex-1 p-8 bg-gray-50">
-                    <h1 className="text-3xl font-bold text-gray-900">Infrastructure Analytics</h1>
-                    <p className="text-gray-600">Urban infrastructure insights coming soon...</p>
+                    <h1 className="text-3xl font-bold text-gray-900">
+                      Infrastructure Analytics
+                    </h1>
+                    <p className="text-gray-600">
+                      Urban infrastructure insights coming soon...
+                    </p>
                   </div>
                 </div>
               </ProtectedRoute>
             }
           />
 
-          {/* Environment route - SHOWS THE ACTUAL COMPONENT */}
+          {/* Environment – actual component */}
           <Route
             path="/environment"
             element={
               <ProtectedRoute>
                 <div className="flex min-h-screen">
                   <Sidebar />
-                  <Environment /> {/* This is the actual Environment component */}
+                  <Environment />
                 </div>
               </ProtectedRoute>
             }
           />
 
+          {/* Transport – actual component */}
           <Route
             path="/transport"
             element={
               <ProtectedRoute>
                 <div className="flex min-h-screen">
                   <Sidebar />
-                  <div className="flex-1 p-8 bg-gray-50">
-                    <h1 className="text-3xl font-bold text-gray-900">Transport Analytics</h1>
-                    <p className="text-gray-600">Transportation and mobility data coming soon...</p>
-                  </div>
+                  <Transport />
                 </div>
               </ProtectedRoute>
             }
           />
 
+          {/* Settings */}
           <Route
             path="/settings"
             element={
@@ -129,16 +135,19 @@ function App() {
                   <Sidebar />
                   <div className="flex-1 p-8 bg-gray-50">
                     <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
-                    <p className="text-gray-600">System configuration coming soon...</p>
+                    <p className="text-gray-600">
+                      System configuration coming soon...
+                    </p>
                   </div>
                 </div>
               </ProtectedRoute>
             }
           />
 
-          {/* Catch all route - redirect to login */}
+          {/* Catch-all */}
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
+
         <Footer />
       </div>
     </Router>
@@ -146,7 +155,3 @@ function App() {
 }
 
 export default App;
-
-
-
-// .
