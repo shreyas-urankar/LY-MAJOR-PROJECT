@@ -24,7 +24,3 @@ function Footer() {
 }
 
 export default Footer;
-<<<<<<< HEAD
-
-=======
->>>>>>> becfcb02e043debd78e887bcdc7429cbfeaddfb9

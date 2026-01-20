@@ -33,11 +33,9 @@ export const registerUser = async (req, res) => {
       password: hashedPassword,
     });
 
-    const token = jwt.sign(
-      { id: newUser._id, username: newUser.username },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
-    );
+    const token = jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, {
+      expiresIn: '24h'  
+    });
 
     // ✅ Save REGISTER event in Data collection
     const registrationData = new Data({
