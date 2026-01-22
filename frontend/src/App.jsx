@@ -7,13 +7,10 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Reports from "./pages/Reports";
 import PopulationDashboard from "./components/PopulationDashboard";
-import ProtectedRoute from "./components/ProtectedRoute";
-<<<<<<< HEAD
-import Transport from "./pages/Transport";
+import Infrastructure from "./pages/infrastructure"
 import Environment from "./pages/Environment";
-=======
-import Transport from "./pages/Transport"; // Make sure this import exists
->>>>>>> becfcb02e043debd78e887bcdc7429cbfeaddfb9
+import Transport from "./pages/Transport";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -23,7 +20,7 @@ function App() {
           {/* Redirect root to login */}
           <Route path="/" element={<Navigate to="/login" replace />} />
 
-          {/* Login page */}
+          {/* Login page - show navbar */}
           <Route
             path="/login"
             element={
@@ -34,7 +31,7 @@ function App() {
             }
           />
 
-          {/* Register page */}
+          {/* Register page - show navbar */}
           <Route
             path="/register"
             element={
@@ -91,48 +88,26 @@ function App() {
               <ProtectedRoute>
                 <div className="flex min-h-screen">
                   <Sidebar />
-                  <div className="flex-1 p-8 bg-gray-50">
-                    <h1 className="text-3xl font-bold text-gray-900">
-                      Infrastructure Analytics
-                    </h1>
-                    <p className="text-gray-600">
-                      Urban infrastructure insights coming soon...
-                    </p>
-                  </div>
+                  <Infrastructure />
                 </div>
               </ProtectedRoute>
             }
           />
 
-          {/* Environment – actual component */}
+          {/* Environment */}
           <Route
             path="/environment"
             element={
               <ProtectedRoute>
                 <div className="flex min-h-screen">
                   <Sidebar />
-<<<<<<< HEAD
                   <Environment />
-=======
-                  <div className="flex-1 p-8 bg-gray-50">
-                    <h1 className="text-3xl font-bold text-gray-900">
-                      Environmental Analytics
-                    </h1>
-                    <p className="text-gray-600">
-                      Sustainability and environmental data coming soon...
-                    </p>
-                  </div>
->>>>>>> becfcb02e043debd78e887bcdc7429cbfeaddfb9
                 </div>
               </ProtectedRoute>
             }
           />
 
-<<<<<<< HEAD
-          {/* Transport – actual component */}
-=======
-          {/* ✅ FIXED: Changed from /transports to /transport (without 's') */}
->>>>>>> becfcb02e043debd78e887bcdc7429cbfeaddfb9
+          {/* Transport */}
           <Route
             path="/transport"
             element={
@@ -154,19 +129,16 @@ function App() {
                   <Sidebar />
                   <div className="flex-1 p-8 bg-gray-50">
                     <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
-                    <p className="text-gray-600">
-                      System configuration coming soon...
-                    </p>
+                    <p className="text-gray-600">System configuration coming soon...</p>
                   </div>
                 </div>
               </ProtectedRoute>
             }
           />
 
-          {/* Catch-all */}
+          {/* Catch all route - redirect to login */}
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
-
         <Footer />
       </div>
     </Router>
