@@ -8,7 +8,7 @@ import connectDB from "./config/db.js";
 import dataRoutes from "./routes/dataRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import populationRoutes from "./routes/populationRoutes.js";
-import environmentRoutes from "./routes/environmentRoutes.js";
+import environmentRoutes from "./routes/environmentRoutes.js"; // ADD THIS LINE
 
 dotenv.config();
 
@@ -16,10 +16,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true
-}));
+app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
 
@@ -35,7 +32,7 @@ app.get("/", (req, res) => {
 app.use("/api/data", dataRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/population", populationRoutes);
-app.use("/api/environment", environmentRoutes);
+app.use("/api/environment", environmentRoutes); // ADD THIS LINE
 
 app.listen(PORT, () => {
   console.log(`🌍 Server running on http://localhost:${PORT}`);
