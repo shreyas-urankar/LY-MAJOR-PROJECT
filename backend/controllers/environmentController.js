@@ -269,3 +269,4 @@ const generateMockData = (city, range) => {
   
   return mockData;
 };
+// .......

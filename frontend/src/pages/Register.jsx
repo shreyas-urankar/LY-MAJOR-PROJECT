@@ -34,13 +34,13 @@ function Register() {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/api/users/register", { 
-        username, 
-        password 
+      const response = await axios.post("http://localhost:5000/api/users/register", {
+        username,
+        password
       });
-      
+
       console.log("Registration response:", response.data);
-      
+
       // ✅ FIX: Check for token instead of success field
       if (response.data.token) {
         localStorage.setItem("user", JSON.stringify(response.data.user));
@@ -53,8 +53,8 @@ function Register() {
       console.error("Registration error:", err);
       // ✅ FIX: Get proper error message from backend
       setError(
-        err.response?.data?.message || 
-        err.response?.data?.error || 
+        err.response?.data?.message ||
+        err.response?.data?.error ||
         "Registration failed. Please try again."
       );
     } finally {
@@ -74,13 +74,13 @@ function Register() {
             Register to start using AI Urban Growth Dashboard
           </p>
         </div>
-        
+
         {error && (
           <div className="mb-4 p-3 bg-red-500/20 border border-red-500/50 rounded-lg text-red-200 text-sm">
             {error}
           </div>
         )}
-        
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label htmlFor="username" className="block text-white font-medium mb-2 text-left">
@@ -96,7 +96,7 @@ function Register() {
               disabled={loading}
             />
           </div>
-          
+
           <div>
             <label htmlFor="password" className="block text-white font-medium mb-2 text-left">
               Password
@@ -126,7 +126,7 @@ function Register() {
               disabled={loading}
             />
           </div>
-          
+
           <button
             type="submit"
             disabled={loading}
@@ -135,7 +135,7 @@ function Register() {
             {loading ? "Creating Account..." : "Create Account"}
           </button>
         </form>
-        
+
         <div className="mt-6 text-center">
           <p className="text-blue-200 text-sm">
             Already have an account?{" "}
@@ -144,7 +144,7 @@ function Register() {
             </Link>
           </p>
         </div>
-        
+
         <div className="mt-8 pt-8 border-t border-white/20">
           <div className="grid grid-cols-3 gap-4 text-center">
             <div className="text-white">
@@ -167,3 +167,4 @@ function Register() {
 }
 
 export default Register;
+

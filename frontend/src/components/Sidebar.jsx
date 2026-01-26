@@ -34,11 +34,10 @@ function Sidebar() {
           <Link
             key={item.path}
             to={item.path}
-            className={`flex items-center space-x-3 p-3 rounded-lg transition-all ${
-              isActive(item.path)
+            className={`flex items-center space-x-3 p-3 rounded-lg transition-all ${isActive(item.path)
                 ? "bg-blue-50 border border-blue-200 text-blue-700"
                 : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-            }`}
+              }`}
           >
             <div className="text-xl">{item.icon}</div>
             <div className="flex-1">
@@ -77,3 +76,4 @@ function Sidebar() {
 }
 
 export default Sidebar;
+

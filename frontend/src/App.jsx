@@ -7,8 +7,10 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Reports from "./pages/Reports";
 import PopulationDashboard from "./components/PopulationDashboard";
+import Infrastructure from "./pages/infrastructure"
+import Environment from "./pages/Environment";
+import Transport from "./pages/Transport";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Environment from "./pages/Environment"; // Import the Environment component
 
 function App() {
   return (
@@ -40,7 +42,7 @@ function App() {
             }
           />
 
-          {/* Protected routes - no navbar (they have sidebar) */}
+          {/* Dashboard */}
           <Route
             path="/dashboard"
             element={
@@ -53,6 +55,7 @@ function App() {
             }
           />
 
+          {/* Reports */}
           <Route
             path="/reports"
             element={
@@ -65,7 +68,7 @@ function App() {
             }
           />
 
-          {/* Population route - now shows the real dashboard */}
+          {/* Population */}
           <Route
             path="/population"
             element={
@@ -78,49 +81,46 @@ function App() {
             }
           />
 
+          {/* Infrastructure */}
           <Route
             path="/infrastructure"
             element={
               <ProtectedRoute>
                 <div className="flex min-h-screen">
                   <Sidebar />
-                  <div className="flex-1 p-8 bg-gray-50">
-                    <h1 className="text-3xl font-bold text-gray-900">Infrastructure Analytics</h1>
-                    <p className="text-gray-600">Urban infrastructure insights coming soon...</p>
-                  </div>
+                  <Infrastructure />
                 </div>
               </ProtectedRoute>
             }
           />
 
-          {/* Environment route - SHOWS THE ACTUAL COMPONENT */}
+          {/* Environment */}
           <Route
             path="/environment"
             element={
               <ProtectedRoute>
                 <div className="flex min-h-screen">
                   <Sidebar />
-                  <Environment /> {/* This is the actual Environment component */}
+                  <Environment />
                 </div>
               </ProtectedRoute>
             }
           />
 
+          {/* Transport */}
           <Route
             path="/transport"
             element={
               <ProtectedRoute>
                 <div className="flex min-h-screen">
                   <Sidebar />
-                  <div className="flex-1 p-8 bg-gray-50">
-                    <h1 className="text-3xl font-bold text-gray-900">Transport Analytics</h1>
-                    <p className="text-gray-600">Transportation and mobility data coming soon...</p>
-                  </div>
+                  <Transport />
                 </div>
               </ProtectedRoute>
             }
           />
 
+          {/* Settings */}
           <Route
             path="/settings"
             element={

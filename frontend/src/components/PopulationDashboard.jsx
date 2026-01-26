@@ -67,12 +67,12 @@ function PopulationDashboard() {
       alert("Please enter a valid year after 2020");
       return;
     }
-    
+
     if (populationData.length === 0) {
       alert("No historical data available. Please import data first.");
       return;
     }
-    
+
     setPredictionLoading(true);
     try {
       const response = await axios.get(
@@ -195,7 +195,7 @@ function PopulationDashboard() {
             </div>
           </div>
         </div>
-        
+
         {/* Tabs */}
         <div className="px-6 pb-4">
           <div className="flex space-x-1 bg-gray-100 rounded-xl p-1">
@@ -203,11 +203,10 @@ function PopulationDashboard() {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all ${
-                  activeTab === tab
+                className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all ${activeTab === tab
                     ? "bg-white text-blue-600 shadow-sm"
                     : "text-gray-600 hover:text-gray-900"
-                }`}
+                  }`}
               >
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
               </button>
@@ -261,8 +260,8 @@ function PopulationDashboard() {
             </div>
             <div className="mt-2">
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
-                  className="bg-purple-600 h-2 rounded-full" 
+                <div
+                  className="bg-purple-600 h-2 rounded-full"
                   style={{ width: `${Math.min(stats?.averageGrowthRate * 10 || 0, 100)}%` }}
                 ></div>
               </div>
@@ -304,18 +303,18 @@ function PopulationDashboard() {
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={getLineChartData()}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis 
-                    dataKey="year" 
+                  <XAxis
+                    dataKey="year"
                     stroke="#666"
                     tick={{ fill: '#666' }}
                   />
-                  <YAxis 
+                  <YAxis
                     yAxisId="left"
                     stroke="#666"
                     tick={{ fill: '#666' }}
                     label={{ value: 'Population (M)', angle: -90, position: 'insideLeft' }}
                   />
-                  <YAxis 
+                  <YAxis
                     yAxisId="right"
                     orientation="right"
                     stroke="#666"
@@ -384,11 +383,11 @@ function PopulationDashboard() {
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
-                  <Tooltip 
+                  <Tooltip
                     formatter={(value) => [`${value.toFixed(1)}%`, "Percentage"]}
                     contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb' }}
                   />
-                  <Legend 
+                  <Legend
                     verticalAlign="bottom"
                     height={36}
                     iconType="circle"
@@ -509,22 +508,22 @@ function PopulationDashboard() {
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={Object.entries(prediction.ageGroups).map(([age, value]) => ({ age, value }))}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                      <XAxis 
-                        dataKey="age" 
+                      <XAxis
+                        dataKey="age"
                         stroke="#666"
                         tick={{ fill: '#666' }}
                       />
-                      <YAxis 
+                      <YAxis
                         stroke="#666"
                         tick={{ fill: '#666' }}
                         label={{ value: 'Percentage (%)', angle: -90, position: 'insideLeft' }}
                       />
-                      <Tooltip 
+                      <Tooltip
                         formatter={(value) => [`${value}%`, "Percentage"]}
                         contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb' }}
                       />
-                      <Bar 
-                        dataKey="value" 
+                      <Bar
+                        dataKey="value"
                         fill="#10b981"
                         radius={[8, 8, 0, 0]}
                         barSize={40}
@@ -552,21 +551,21 @@ function PopulationDashboard() {
               )}
               <div className="inline-flex items-center space-x-2 bg-white border border-gray-300 rounded-lg px-4 py-2">
                 <span className="text-gray-600">Example:</span>
-                <button 
+                <button
                   onClick={() => setTargetYear(2030)}
                   className="text-blue-600 hover:text-blue-700 font-medium"
                 >
                   2030
                 </button>
                 <span className="text-gray-400">|</span>
-                <button 
+                <button
                   onClick={() => setTargetYear(2040)}
                   className="text-blue-600 hover:text-blue-700 font-medium"
                 >
                   2040
                 </button>
                 <span className="text-gray-400">|</span>
-                <button 
+                <button
                   onClick={() => setTargetYear(2050)}
                   className="text-blue-600 hover:text-blue-700 font-medium"
                 >
@@ -610,13 +609,12 @@ function PopulationDashboard() {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                        item.growthRate >= 2.5 
-                          ? 'bg-green-100 text-green-800' 
-                          : item.growthRate >= 2.0 
-                          ? 'bg-yellow-100 text-yellow-800' 
-                          : 'bg-red-100 text-red-800'
-                      }`}>
+                      <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${item.growthRate >= 2.5
+                          ? 'bg-green-100 text-green-800'
+                          : item.growthRate >= 2.0
+                            ? 'bg-yellow-100 text-yellow-800'
+                            : 'bg-red-100 text-red-800'
+                        }`}>
                         {item.growthRate >= 2.5 ? '↑↑' : item.growthRate >= 2.0 ? '↑' : '→'} {item.growthRate}%
                       </div>
                     </td>
@@ -631,7 +629,7 @@ function PopulationDashboard() {
                           <div
                             key={age}
                             className="text-xs px-2 py-1 rounded"
-                            style={{ 
+                            style={{
                               backgroundColor: `${ageGroupColors[idx]}20`,
                               color: ageGroupColors[idx],
                               border: `1px solid ${ageGroupColors[idx]}40`
@@ -644,13 +642,12 @@ function PopulationDashboard() {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-3 py-1 text-xs rounded-full font-medium ${
-                        item.source === 'Census' 
+                      <span className={`px-3 py-1 text-xs rounded-full font-medium ${item.source === 'Census'
                           ? 'bg-blue-100 text-blue-800'
                           : item.source === 'Predicted'
-                          ? 'bg-purple-100 text-purple-800'
-                          : 'bg-gray-100 text-gray-800'
-                      }`}>
+                            ? 'bg-purple-100 text-purple-800'
+                            : 'bg-gray-100 text-gray-800'
+                        }`}>
                         {item.source}
                       </span>
                     </td>
@@ -666,3 +663,5 @@ function PopulationDashboard() {
 }
 
 export default PopulationDashboard;
+
+

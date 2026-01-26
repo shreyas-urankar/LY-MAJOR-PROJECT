@@ -2,7 +2,7 @@ to run this project in
 1st terminal put: =>"mongod"
 2nd terminal put: cd backend
                   npm run dev
-3rd terminal put: cd streamlite_app
+3rd terminal put: cd streamlit_app
                   streamlit run app.py
 4th terminal put: cd frontend 
                   npm run dev

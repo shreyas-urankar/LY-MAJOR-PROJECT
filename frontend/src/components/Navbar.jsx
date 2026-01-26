@@ -7,11 +7,10 @@ function Navbar() {
   const token = localStorage.getItem("token");
   const isAuthenticated = user && token;
 
-  const navLinkClass = (path) => 
-    `px-4 py-2 rounded-lg transition-all duration-300 font-medium ${
-      location.pathname === path 
-        ? 'bg-white text-blue-900 shadow-lg' 
-        : 'text-white hover:bg-white/20 hover:shadow-md'
+  const navLinkClass = (path) =>
+    `px-4 py-2 rounded-lg transition-all duration-300 font-medium ${location.pathname === path
+      ? 'bg-white text-blue-900 shadow-lg'
+      : 'text-white hover:bg-white/20 hover:shadow-md'
     }`;
 
   const handleLogout = () => {
@@ -29,7 +28,7 @@ function Navbar() {
             AI-Powered Urban Growth
           </h1>
         </div>
-        
+
         <div className="flex items-center space-x-4">
           {isAuthenticated && (
             <span className="text-blue-100 text-sm">
@@ -72,3 +71,5 @@ function Navbar() {
 }
 
 export default Navbar;
+
+

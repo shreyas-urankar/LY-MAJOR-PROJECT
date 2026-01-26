@@ -16,50 +16,44 @@ function Environment() {
   const token = localStorage.getItem("token");
   const username = localStorage.getItem("user");
 
-  // Sample cities
   const cities = ["Pune", "Mumbai", "Delhi", "Bangalore", "Chennai", "Hyderabad", "Kolkata"];
 
-  // Fetch environment data
   const fetchEnvironmentData = async () => {
     try {
       setLoading(true);
       console.log(`📡 Fetching environment data for ${selectedCity}, range: ${timeRange}`);
-      
+
       const response = await axios.get(`http://localhost:5000/api/environment?city=${selectedCity}&range=${timeRange}`, {
-        headers: { 
+        headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         }
       });
-      
+
       console.log("📥 API Response:", response.data);
-      
+
       if (response.data && response.data.data) {
         setEnvironmentData(response.data.data);
-        
-        // Process data for charts
+
         if (response.data.data.length > 0) {
           const latest = response.data.data[response.data.data.length - 1];
           setAqiData(latest);
           console.log("📊 Latest data:", latest);
         }
       }
-      
+
       setLoading(false);
     } catch (apiError) {
       console.error("❌ Error fetching environment data:", apiError);
-      // Use mock data if API not available
       generateMockData();
       setLoading(false);
     }
   };
 
-  // Save environment data to backend
   const saveEnvironmentDataToBackend = async () => {
     try {
       setSaving(true);
-      
-      // Create data to save
+
       const currentData = aqiData || {
         aqi: 85,
         pm25: 42,
@@ -71,7 +65,7 @@ function Environment() {
         humidity: 65,
         windSpeed: 12
       };
-      
+
       const dataToSave = {
         city: selectedCity,
         aqi: currentData.aqi,
@@ -87,7 +81,7 @@ function Environment() {
       };
 
       console.log("📤 Sending environment data to backend:", dataToSave);
-      
+
       const response = await axios.post(
         "http://localhost:5000/api/environment",
         dataToSave,
@@ -98,12 +92,11 @@ function Environment() {
           }
         }
       );
-      
+
       console.log("✅ Backend response:", response.data);
-      
-      // Refresh data after saving
+
       await fetchEnvironmentData();
-      
+
       alert("✅ Environment data saved to database!");
       return response.data;
     } catch (error) {
@@ -115,29 +108,26 @@ function Environment() {
     }
   };
 
-  // Generate mock data for demonstration
   const generateMockData = () => {
     const mockData = [];
     const dates = [];
-    
-    // Generate dates based on time range
+
     const now = new Date();
     let days = timeRange === "week" ? 7 : timeRange === "month" ? 30 : 365;
-    
+
     for (let i = days; i >= 0; i--) {
       const date = new Date();
       date.setDate(now.getDate() - i);
       dates.push(date.toISOString().split('T')[0]);
     }
-    
-    // Generate data points
+
     dates.forEach((date, index) => {
       const baseAQI = 80 + Math.sin(index * 0.3) * 20 + Math.random() * 10;
       const pm25 = 30 + Math.sin(index * 0.4) * 15 + Math.random() * 8;
       const pm10 = 50 + Math.sin(index * 0.35) * 20 + Math.random() * 12;
       const co2 = 400 + Math.sin(index * 0.25) * 50 + Math.random() * 30;
       const greenCover = 25 + Math.sin(index * 0.1) * 5 + Math.random() * 3;
-      
+
       mockData.push({
         date,
         city: selectedCity,
@@ -152,9 +142,9 @@ function Environment() {
         windSpeed: Math.round(8 + Math.sin(index * 0.3) * 4),
       });
     });
-    
+
     setEnvironmentData(mockData);
-    
+
     if (mockData.length > 0) {
       const latest = mockData[mockData.length - 1];
       setAqiData(latest);
@@ -165,7 +155,6 @@ function Environment() {
     fetchEnvironmentData();
   }, [selectedCity, timeRange]);
 
-  // AQI Status and Color
   const getAqiStatus = (aqi) => {
     if (aqi <= 50) return { status: "Good", color: "#10B981", level: "Low" };
     if (aqi <= 100) return { status: "Moderate", color: "#FBBF24", level: "Medium" };
@@ -174,7 +163,6 @@ function Environment() {
     return { status: "Hazardous", color: "#7C3AED", level: "Severe" };
   };
 
-  // Get pollution level
   const getPollutionLevel = (pm25) => {
     if (pm25 <= 12) return "Good";
     if (pm25 <= 35) return "Moderate";
@@ -198,13 +186,11 @@ function Environment() {
 
   return (
     <div className="flex-1 p-6 bg-gray-50 overflow-auto">
-      {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">🌿 Environment Analytics</h1>
         <p className="text-gray-600 mt-2">Monitor air quality, pollution levels, and environmental metrics</p>
       </div>
 
-      {/* Controls */}
       <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <div className="flex items-center space-x-4">
@@ -253,9 +239,7 @@ function Environment() {
         </div>
       </div>
 
-      {/* AQI Dashboard */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        {/* AQI Gauge */}
         <div className="bg-white rounded-xl shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">🌡️ Air Quality Index (AQI)</h3>
           <div className="flex flex-col items-center">
@@ -292,7 +276,6 @@ function Environment() {
           </div>
         </div>
 
-        {/* Pollution Metrics */}
         <div className="bg-white rounded-xl shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">🏭 Pollution Metrics</h3>
           <div className="space-y-4">
@@ -335,12 +318,11 @@ function Environment() {
             <div className="pt-4 border-t border-gray-200">
               <div className="flex items-center justify-between">
                 <span className="text-gray-700">Overall Pollution</span>
-                <span className={`px-3 py-1 rounded-full font-semibold ${
-                  pollutionLevel === "Good" ? "bg-green-100 text-green-800" :
-                  pollutionLevel === "Moderate" ? "bg-yellow-100 text-yellow-800" :
-                  pollutionLevel === "Unhealthy" ? "bg-orange-100 text-orange-800" :
-                  "bg-red-100 text-red-800"
-                }`}>
+                <span className={`px-3 py-1 rounded-full font-semibold ${pollutionLevel === "Good" ? "bg-green-100 text-green-800" :
+                    pollutionLevel === "Moderate" ? "bg-yellow-100 text-yellow-800" :
+                      pollutionLevel === "Unhealthy" ? "bg-orange-100 text-orange-800" :
+                        "bg-red-100 text-red-800"
+                  }`}>
                   {pollutionLevel}
                 </span>
               </div>
@@ -348,7 +330,6 @@ function Environment() {
           </div>
         </div>
 
-        {/* Environmental Indicators */}
         <div className="bg-white rounded-xl shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">🌍 Environmental Indicators</h3>
           <div className="space-y-6">
@@ -364,12 +345,11 @@ function Environment() {
               </div>
               <div className="text-right">
                 <p className="text-sm text-gray-600">Status</p>
-                <p className={`font-semibold ${
-                  (aqiData ? aqiData.greenCover : 0) > 30 ? "text-green-600" :
-                  (aqiData ? aqiData.greenCover : 0) > 20 ? "text-yellow-600" : "text-red-600"
-                }`}>
+                <p className={`font-semibold ${(aqiData ? aqiData.greenCover : 0) > 30 ? "text-green-600" :
+                    (aqiData ? aqiData.greenCover : 0) > 20 ? "text-yellow-600" : "text-red-600"
+                  }`}>
                   {(aqiData ? aqiData.greenCover : 0) > 30 ? "Healthy" :
-                   (aqiData ? aqiData.greenCover : 0) > 20 ? "Moderate" : "Poor"}
+                    (aqiData ? aqiData.greenCover : 0) > 20 ? "Moderate" : "Poor"}
                 </p>
               </div>
             </div>
@@ -394,9 +374,7 @@ function Environment() {
         </div>
       </div>
 
-      {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        {/* AQI Trend Chart */}
         <div className="bg-white rounded-xl shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">📈 AQI Trend (Last 7 Days)</h3>
           <div className="h-64">
@@ -414,7 +392,6 @@ function Environment() {
           </div>
         </div>
 
-        {/* Pollution Breakdown */}
         <div className="bg-white rounded-xl shadow-sm p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">📊 Pollution Breakdown</h3>
           <div className="h-64">
@@ -438,3 +415,5 @@ function Environment() {
 }
 
 export default Environment;
+
+
