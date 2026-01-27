@@ -9,11 +9,7 @@ import dataRoutes from "./routes/dataRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import infrastructureRoutes from "./routes/infrastructureRoutes.js";
 import populationRoutes from "./routes/populationRoutes.js";
-<<<<<<< HEAD
-import environmentRoutes from "./routes/environmentRoutes.js"; // ADD THIS LINE
-=======
 import transportRoutes from "./routes/transportRoutes.js";
->>>>>>> b8d9194d484115f8d56650dac80f4d1956e0cc58
 
 dotenv.config();
 
@@ -21,14 +17,10 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-<<<<<<< HEAD
-app.use(cors());
-=======
 app.use(cors({
   origin: ['http://localhost:3000', 'http://localhost:8501'], // Frontend and Streamlit
   credentials: true
 }));
->>>>>>> b8d9194d484115f8d56650dac80f4d1956e0cc58
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(morgan('dev'));  // Add logging middleware
@@ -46,11 +38,7 @@ app.use("/api/data", dataRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/infrastructure", infrastructureRoutes);
 app.use("/api/population", populationRoutes);
-<<<<<<< HEAD
-app.use("/api/environment", environmentRoutes); // ADD THIS LINE
-=======
 app.use("/api/transport", transportRoutes);
->>>>>>> b8d9194d484115f8d56650dac80f4d1956e0cc58
 
 // Debug route to test registration
 app.post("/api/debug/register", async (req, res) => {
