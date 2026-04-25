@@ -4,6 +4,7 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
   BarChart, Bar
 } from "recharts";
+import PredictionHeatmap from "../components/PredictionHeatmap";
 
 function Environment() {
   const [environmentData, setEnvironmentData] = useState([]);
@@ -108,6 +109,32 @@ function Environment() {
     }
   };
 
+  const handleExportReport = async () => {
+    try {
+      const url = `http://localhost:5000/api/reports/dashboard/environment?city=${selectedCity}`;
+      const response = await axios.get(url, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/pdf'
+        },
+        responseType: 'blob',
+      });
+      
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const urlBlob = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = urlBlob;
+      link.download = `urban_environment_report_${selectedCity}_${new Date().toISOString().split('T')[0]}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(urlBlob);
+    } catch (error) {
+      console.error("Export failed:", error);
+      alert("Failed to export report.");
+    }
+  };
+
   const generateMockData = () => {
     const mockData = [];
     const dates = [];
@@ -186,9 +213,23 @@ function Environment() {
 
   return (
     <div className="flex-1 p-6 bg-gray-50 overflow-auto">
+      <div className="mb-8 flex justify-between items-end">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">🌿 Environment Analytics</h1>
+          <p className="text-gray-600 mt-2">Monitor air quality, pollution levels, and environmental metrics</p>
+        </div>
+        <button onClick={handleExportReport} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2">
+          <span>📥</span>
+          <span>Export Environment Report</span>
+        </button>
+      </div>
+
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">🌿 Environment Analytics</h1>
-        <p className="text-gray-600 mt-2">Monitor air quality, pollution levels, and environmental metrics</p>
+        <PredictionHeatmap 
+          percentage={85} 
+          title="Environmental Sustainability Prediction" 
+          description={`AI-based forecast for future environmental quality in ${selectedCity}`}
+        />
       </div>
 
       <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
@@ -415,5 +456,3 @@ function Environment() {
 }
 
 export default Environment;
-
-

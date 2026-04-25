@@ -4,12 +4,14 @@ import Footer from "./components/Footer";
 import Sidebar from "./components/Sidebar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import RecoverAccount from "./pages/RecoverAccount";
 import Dashboard from "./pages/Dashboard";
 import Reports from "./pages/Reports";
 import PopulationDashboard from "./components/PopulationDashboard";
 import Infrastructure from "./pages/infrastructure"
 import Environment from "./pages/Environment";
 import Transport from "./pages/Transport";
+import HeatmapComparison from "./pages/HeatmapComparison";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -38,6 +40,17 @@ function App() {
               <>
                 <Navbar />
                 <Register />
+              </>
+            }
+          />
+
+          {/* Recover Account page - show navbar */}
+          <Route
+            path="/recover"
+            element={
+              <>
+                <Navbar />
+                <RecoverAccount />
               </>
             }
           />
@@ -115,6 +128,19 @@ function App() {
                 <div className="flex min-h-screen">
                   <Sidebar />
                   <Transport />
+                </div>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Heatmap Comparison */}
+          <Route
+            path="/heatmap"
+            element={
+              <ProtectedRoute>
+                <div className="flex min-h-screen">
+                  <Sidebar />
+                  <HeatmapComparison />
                 </div>
               </ProtectedRoute>
             }

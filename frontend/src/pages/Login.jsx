@@ -88,13 +88,22 @@ function Login() {
           </button>
         </form>
 
-        <div className="mt-6 text-center">
+        <div className="mt-6 flex flex-col items-center space-y-3">
           <p className="text-blue-200 text-sm">
             Don't have an account?{" "}
             <Link to="/register" className="text-white hover:underline font-medium">
               Register here
             </Link>
           </p>
+          <div className="flex space-x-4 text-xs text-blue-300">
+            <Link to="/recover" className="hover:text-white hover:underline transition-colors">
+              Forgot Username?
+            </Link>
+            <span>|</span>
+            <Link to="/recover" className="hover:text-white hover:underline transition-colors">
+              Forgot Password?
+            </Link>
+          </div>
         </div>
 
         <div className="mt-8 pt-8 border-t border-white/20">
@@ -119,4 +128,3 @@ function Login() {
 }
 
 export default Login;
-

@@ -3,40 +3,44 @@ import sys
 import os
 import matplotlib.pyplot as plt
 import numpy as np
-import urllib.parse
 
 # Add current directory to Python path
 current_dir = os.path.dirname(__file__)
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
 
-from utils import get_token, decode_token
+from utils import get_token, decode_token, get_username, is_authenticated
 
 st.set_page_config(page_title="Urban Growth Prediction Dashboard", page_icon="🌆", layout="wide")
 
-# Check authentication
-token = get_token()
-if not token:
+# ✅ FIXED: Check authentication (token from URL or session)
+if not is_authenticated():
     st.error("🔐 Please login to access the Dashboard")
+    st.info("You are being redirected from the React frontend. Please ensure you're logged in.")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("🔐 Go to Login Page", use_container_width=True):
+            st.switch_page("pages/login.py")
+    with col2:
+        if st.button("📝 Register New Account", use_container_width=True):
+            st.switch_page("pages/register.py")
     st.stop()
 
-# Decode token to get user info
+# Get token and user info
+token = get_token()
 decoded = decode_token(token)
-if not decoded:
-    st.error("❌ Invalid token. Please login again.")
-    st.stop()
+username = get_username()
 
-# ✅ FIXED: Use new st.query_params instead of deprecated st.experimental_get_query_params
-query_params = st.query_params
-username_from_url = query_params.get("username", [None])[0]
-
-if username_from_url:
-    username = urllib.parse.unquote(username_from_url)
-else:
-    # Fallback to token username
-    username = decoded.get("username", f"User {decoded.get('id', 'Unknown')}")
+if not username:
+    username = f"User {decoded.get('id', 'Unknown')}"
 
 user_id = decoded.get("id", "Unknown User")
+
+# ✅ Show success message for auto-authentication
+query_params = st.query_params
+if query_params.get("embedded", None) == "true":
+    st.success(f"✅ Auto-authenticated as **{username}** from React Dashboard")
 
 # Initialize session state for model loading
 if 'model_loaded' not in st.session_state:
@@ -171,9 +175,15 @@ if st.button("🔄 Refresh Data"):
     st.session_state.predictor = None
     st.rerun()
 
-# Sidebar logout
+# Sidebar user info and logout
 st.sidebar.markdown("---")
+st.sidebar.markdown(f"**👤 Logged in as:** {username}")
+st.sidebar.markdown(f"**🔑 User ID:** {user_id}")
+st.sidebar.markdown("---")
+
 if st.sidebar.button("🚪 Logout", use_container_width=True):
-    st.session_state.clear()
+    from utils import clear_session
+    clear_session()
     st.success("Logged out successfully!")
+    st.info("Please return to the React dashboard to login again.")
     st.rerun()

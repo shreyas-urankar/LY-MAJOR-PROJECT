@@ -7,11 +7,9 @@ import requests
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(BASE_DIR)
 
-from utils import get_token
+from utils import get_token, is_authenticated
 
-# ---------------------------
 # Streamlit Page Config
-# ---------------------------
 st.set_page_config(
     page_title="Urban Growth Analytics",
     page_icon="🏙️",
@@ -19,30 +17,23 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# .
-# ---------------------------
-# Main App
-# ---------------------------
 def main():
     st.sidebar.title("🏙️ Urban Growth Analytics")
     st.sidebar.markdown("---")
 
-    # Check authentication
-    token = get_token()
-
-    if token:
+    # Check authentication (supports auto-login from React)
+    if is_authenticated():
         # User is logged in → go to dashboard
         st.switch_page("pages/dashboard.py")
     else:
         # User is not logged in → show welcome
         show_welcome_page()
 
-# ---------------------------
-# Welcome Page
-# ---------------------------
 def show_welcome_page():
     st.title("🌆 Welcome to Urban Growth Analytics")
     st.subheader("Monitor and Predict Urban Development with Advanced Analytics")
+
+    st.info("💡 **Seamless Integration:** Login via React dashboard for automatic authentication!")
 
     col1, col2 = st.columns([2, 1])
 
@@ -61,10 +52,10 @@ def show_welcome_page():
         - Generate probability maps  
 
         ### 🚀 Get Started:
-        1. Create an account or login  
-        2. Open the Dashboard  
-        3. Explore predictions  
-        4. Analyze results  
+        1. Login via React Dashboard (http://localhost:5173)
+        2. Auto-authentication will bring you here
+        3. Explore predictions and analytics
+        4. Generate reports
         """)
 
     with col2:
@@ -78,31 +69,28 @@ def show_welcome_page():
         Login to access advanced urban growth analytics.
         """)
 
-    # ---------------------------
-    # Quick Actions
-    # ---------------------------
     st.markdown("---")
     st.subheader("Quick Access")
 
-    c1, c2 = st.columns(2)
+    c1, c2, c3 = st.columns(3)
 
     with c1:
-        if st.button("🔐 Login to Dashboard", use_container_width=True):
+        if st.button("🔐 Login Here", use_container_width=True):
             st.switch_page("pages/login.py")
 
     with c2:
-        if st.button("📝 Create Account", use_container_width=True):
+        if st.button("📝 Register", use_container_width=True):
             st.switch_page("pages/register.py")
+    
+    with c3:
+        st.link_button("🏠 React Dashboard", "http://localhost:5173", use_container_width=True)
 
-    # ---------------------------
     # System Status
-    # ---------------------------
     st.markdown("---")
     st.subheader("🔧 System Status")
 
     c1, c2 = st.columns(2)
 
-    # ✅ Backend status check
     with c1:
         try:
             resp = requests.get("http://localhost:5000/", timeout=3)
@@ -113,7 +101,6 @@ def show_welcome_page():
         except Exception:
             st.error("❌ Backend server is not reachable")
 
-    # ✅ Model & data file check
     with c2:
         model_path = r"C:\Users\Lenovo\Desktop\LY MAJOR PROJECT\data\models\urban_growth_unet.h5"
         data_path = r"C:\Users\Lenovo\Desktop\LY MAJOR PROJECT\data\predictions\test_predictions.npz"
@@ -128,8 +115,5 @@ def show_welcome_page():
                 missing.append("Prediction data")
             st.error("❌ Missing: " + ", ".join(missing))
 
-# ---------------------------
-# Run App
-# ---------------------------
 if __name__ == "__main__":
     main()

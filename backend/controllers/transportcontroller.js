@@ -184,7 +184,7 @@ export const saveTransportData = async (req, res) => {
 export const predictCongestion = async (req, res) => {
   try {
     const { city = "Pune", date, time } = req.body;
-    
+
     if (!date || !time) {
       return res.status(400).json({
         success: false,
@@ -223,17 +223,17 @@ export const predictCongestion = async (req, res) => {
 
     if (historicalData.length > 0 && historicalData[0].count > 10) {
       predictedCongestion = historicalData[0].avgCongestion;
-      
+
       // Adjust based on month (higher in monsoon months for Pune)
       if (month >= 6 && month <= 9) {
         predictedCongestion *= 1.15; // 15% higher in monsoon
       }
-      
+
       // Adjust based on hour (rush hours)
       if ((hour >= 8 && hour <= 10) || (hour >= 17 && hour <= 19)) {
         predictedCongestion *= 1.3; // 30% higher in rush hours
       }
-      
+
       // Cap at 100
       predictedCongestion = Math.min(100, Math.round(predictedCongestion));
       predictionAccuracy = 85;
@@ -249,7 +249,7 @@ export const predictCongestion = async (req, res) => {
     if (lastWeekData.length >= 2) {
       const recentAvg = lastWeekData.slice(0, 3).reduce((sum, d) => sum + d.congestionLevel, 0) / 3;
       const olderAvg = lastWeekData.slice(-3).reduce((sum, d) => sum + d.congestionLevel, 0) / 3;
-      
+
       if (recentAvg > olderAvg + 5) trafficTrend = "Increasing";
       else if (recentAvg < olderAvg - 5) trafficTrend = "Decreasing";
     }
@@ -265,7 +265,7 @@ export const predictCongestion = async (req, res) => {
         factors: {
           dayOfWeek: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][dayOfWeek],
           hour,
-          month: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][month-1],
+          month: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][month - 1],
           historicalDataPoints: historicalData[0]?.count || 0
         },
         recommendations: predictedCongestion > 70 ? [
@@ -314,7 +314,7 @@ export const importCSVData = async (req, res) => {
 export const getTrafficAlerts = async (req, res) => {
   try {
     const { city = "Pune" } = req.query;
-    
+
     // Find recent high-congestion or accident-prone areas
     const recentAlerts = await Transport.find({
       city,
@@ -325,19 +325,19 @@ export const getTrafficAlerts = async (req, res) => {
         { trafficIndex: { $gte: 180 } }
       ]
     })
-    .sort({ date: -1 })
-    .limit(10);
+      .sort({ date: -1 })
+      .limit(10);
 
     const alerts = recentAlerts.map(alert => ({
-      type: alert.congestionLevel >= 80 ? "High Congestion" : 
-            alert.accidents >= 3 ? "Accident Prone" : "Heavy Traffic",
+      type: alert.congestionLevel >= 80 ? "High Congestion" :
+        alert.accidents >= 3 ? "Accident Prone" : "Heavy Traffic",
       location: "Pune City",
-      severity: alert.congestionLevel >= 90 ? "High" : 
-               alert.congestionLevel >= 80 ? "Medium" : "Low",
+      severity: alert.congestionLevel >= 90 ? "High" :
+        alert.congestionLevel >= 80 ? "Medium" : "Low",
       value: alert.congestionLevel || alert.trafficIndex,
       timestamp: alert.date,
-      recommendation: alert.congestionLevel >= 80 ? 
-        "Avoid this area, use alternative routes" : 
+      recommendation: alert.congestionLevel >= 80 ?
+        "Avoid this area, use alternative routes" :
         "Proceed with caution"
     }));
 

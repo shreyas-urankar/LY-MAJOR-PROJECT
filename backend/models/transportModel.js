@@ -8,36 +8,30 @@ const transportSchema = new mongoose.Schema({
     },
     date: {
         type: Date,
-        required: true,
-        default: Date.now
+        required: true
     },
     trafficIndex: {
         type: Number,
         min: 0,
-        max: 300,
-        required: true
+        max: 300
     },
     avgSpeed: {
         type: Number,
         min: 0,
-        max: 100,
-        required: true
+        max: 100
     },
     congestionLevel: {
         type: Number,
         min: 0,
-        max: 100,
-        required: true
+        max: 100
     },
     accidents: {
         type: Number,
-        min: 0,
-        default: 0
+        min: 0
     },
     publicTransportUsage: {
         type: Number,
-        min: 0,
-        default: 0
+        min: 0
     },
     // Additional fields for ML predictions
     dayOfWeek: {
@@ -70,6 +64,21 @@ const transportSchema = new mongoose.Schema({
             default: [73.8567, 18.5204] // Pune coordinates
         }
     },
+    // Prediction fields
+    predictedCongestion: {
+        type: Number,
+        min: 0,
+        max: 100
+    },
+    predictionAccuracy: {
+        type: Number,
+        min: 0,
+        max: 100
+    },
+    trafficTrend: {
+        type: String,
+        enum: ['Increasing', 'Decreasing', 'Stable']
+    },
     // User who analyzed this data
     userId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -77,17 +86,12 @@ const transportSchema = new mongoose.Schema({
     },
     username: {
         type: String
-    },
-    source: {
-        type: String,
-        enum: ["API", "User", "System", "Test", "Sample", "Mock", "Prediction"],
-        default: "User"
     }
 }, {
     timestamps: true,
     indexes: [
         { city: 1, date: -1 },
-        { userId: 1, date: -1 }
+        { location: "2dsphere" }
     ]
 });
 

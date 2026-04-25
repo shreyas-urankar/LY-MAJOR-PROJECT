@@ -4,7 +4,6 @@ import sys
 import os
 
 # Add current directory to Python path
-# .
 current_dir = os.path.dirname(__file__)
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
@@ -17,11 +16,13 @@ st.set_page_config(page_title="Login", page_icon="🔐", layout="centered")
 token = get_token()
 if token:
     st.success("✅ You are already logged in!")
-    if st.button("Go to Dashboard"):
+    if st.button("Go to Dashboard", use_container_width=True):
         st.switch_page("pages/dashboard.py")
     st.stop()
 
 st.title("🔐 Login to Urban Growth Dashboard")
+
+st.info("💡 **Tip:** If you came from the React dashboard, you should already be authenticated!")
 
 username = st.text_input("👤 Username", placeholder="Enter your username")
 password = st.text_input("🔒 Password", type="password", placeholder="Enter your password")
@@ -60,3 +61,7 @@ if st.button("🚀 Login", type="primary", use_container_width=True):
 # Registration link
 st.markdown("---")
 st.markdown("Don't have an account? [Register here](Register)")
+
+# Back to React dashboard
+st.markdown("---")
+st.markdown("🔙 [Return to React Dashboard](http://localhost:5173)")

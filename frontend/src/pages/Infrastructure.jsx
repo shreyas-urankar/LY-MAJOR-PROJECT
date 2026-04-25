@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import PredictionHeatmap from "../components/PredictionHeatmap";
 
 // Demo data in case backend is not available
 const DEMO_DATA = [
@@ -135,6 +136,32 @@ function Infrastructure() {
         }
     };
 
+    const handleExportReport = async () => {
+        try {
+            const url = `http://localhost:5000/api/reports/dashboard/infrastructure?city=Pune`;
+            const response = await axios.get(url, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/pdf'
+                },
+                responseType: 'blob',
+            });
+            
+            const blob = new Blob([response.data], { type: 'application/pdf' });
+            const urlBlob = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = urlBlob;
+            link.download = `urban_infrastructure_report_Pune_${new Date().toISOString().split('T')[0]}.pdf`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(urlBlob);
+        } catch (error) {
+            console.error("Export failed:", error);
+            alert("Failed to export report.");
+        }
+    };
+
     // Safe sorted copy (NO state mutation)
     const sortedData = [...infrastructureData].sort((a, b) => b.year - a.year);
     const latestData = sortedData.length > 0 ? sortedData[0] : null;
@@ -196,12 +223,28 @@ function Infrastructure() {
                 </div>
             </div>
 
-            <h1 className="text-3xl font-bold mb-2">
-                🏗️ Infrastructure Development Dashboard
-            </h1>
-            <p className="text-gray-600 mb-6">
-                Pune • Latest Year: {latestData?.year || "N/A"} • Data: {usingDemoData ? "Demo" : "Live MongoDB"}
-            </p>
+            <div className="flex justify-between items-end mb-6">
+                <div>
+                    <h1 className="text-3xl font-bold mb-2">
+                        🏗️ Infrastructure Development Dashboard
+                    </h1>
+                    <p className="text-gray-600">
+                        Pune • Latest Year: {latestData?.year || "N/A"} • Data: {usingDemoData ? "Demo" : "Live MongoDB"}
+                    </p>
+                </div>
+                <button onClick={handleExportReport} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2">
+                    <span>📥</span>
+                    <span>Export Infrastructure Report</span>
+                </button>
+            </div>
+
+            <div className="mb-8">
+                <PredictionHeatmap 
+                    percentage={78} 
+                    title="Infrastructure Growth Readiness" 
+                    description="AI readiness score based on smart city metrics and resource allocation"
+                />
+            </div>
 
             {/* Quick Stats */}
             {latestData && (

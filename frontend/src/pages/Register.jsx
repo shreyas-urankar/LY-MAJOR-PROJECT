@@ -6,6 +6,8 @@ function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [securityQuestion, setSecurityQuestion] = useState("What is your favorite city?");
+  const [securityAnswer, setSecurityAnswer] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -36,7 +38,9 @@ function Register() {
     try {
       const response = await axios.post("http://localhost:5000/api/users/register", {
         username,
-        password
+        password,
+        securityQuestion,
+        securityAnswer
       });
 
       console.log("Registration response:", response.data);
@@ -127,6 +131,39 @@ function Register() {
             />
           </div>
 
+          <div>
+            <label htmlFor="securityQuestion" className="block text-white font-medium mb-2 text-left">
+              Security Question
+            </label>
+            <select
+              id="securityQuestion"
+              value={securityQuestion}
+              onChange={(e) => setSecurityQuestion(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl border border-white/20 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all"
+              disabled={loading}
+            >
+              <option value="What is your favorite city?" className="text-gray-900">What is your favorite city?</option>
+              <option value="What was the name of your first pet?" className="text-gray-900">What was the name of your first pet?</option>
+              <option value="What is your mother's maiden name?" className="text-gray-900">What is your mother's maiden name?</option>
+              <option value="What high school did you attend?" className="text-gray-900">What high school did you attend?</option>
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="securityAnswer" className="block text-white font-medium mb-2 text-left">
+              Security Answer
+            </label>
+            <input
+              id="securityAnswer"
+              type="text"
+              placeholder="Your answer (for account recovery)"
+              value={securityAnswer}
+              onChange={(e) => setSecurityAnswer(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl border border-white/20 bg-white/10 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all"
+              disabled={loading}
+            />
+          </div>
+
           <button
             type="submit"
             disabled={loading}
@@ -167,4 +204,3 @@ function Register() {
 }
 
 export default Register;
-

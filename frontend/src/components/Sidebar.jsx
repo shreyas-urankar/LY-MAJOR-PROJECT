@@ -10,6 +10,7 @@ function Sidebar() {
     { path: "/environment", icon: "🌿", label: "Environment", description: "Green spaces & sustainability" },
     { path: "/transport", icon: "🚗", label: "Transport", description: "Mobility & traffic" },
     { path: "/reports", icon: "📄", label: "Reports", description: "Analytics & insights" },
+    { path: "/heatmap", icon: "🗺️", label: "Zone Heatmap", description: "City comparison matrix" },
     { path: "/settings", icon: "⚙️", label: "Settings", description: "System configuration" },
   ];
 
@@ -76,4 +77,3 @@ function Sidebar() {
 }
 
 export default Sidebar;
-

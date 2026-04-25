@@ -5,6 +5,7 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
   AreaChart, Area
 } from "recharts";
+import PredictionHeatmap from "./PredictionHeatmap";
 
 function PopulationDashboard() {
   const [city, setCity] = useState("Pune");
@@ -115,6 +116,32 @@ function PopulationDashboard() {
     return getAgeGroupData(latestData);
   };
 
+  const handleExportReport = async () => {
+    try {
+      const url = `http://localhost:5000/api/reports/dashboard/population?city=${city}`;
+      const response = await axios.get(url, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/pdf'
+        },
+        responseType: 'blob',
+      });
+      
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const urlBlob = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = urlBlob;
+      link.download = `urban_population_report_${city}_${new Date().toISOString().split('T')[0]}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(urlBlob);
+    } catch (error) {
+      console.error("Export failed:", error);
+      alert("Failed to export report.");
+    }
+  };
+
   // Initialize
   useEffect(() => {
     fetchPopulationData();
@@ -185,12 +212,19 @@ function PopulationDashboard() {
                   <option value="Bangalore">Bangalore</option>
                 </select>
               </div>
-              <button
+                <button
                 onClick={() => fetchPopulationData()}
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
               >
                 <span>🔄</span>
                 <span>Refresh Data</span>
+              </button>
+              <button
+                onClick={handleExportReport}
+                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2"
+              >
+                <span>📥</span>
+                <span>Export Population Report</span>
               </button>
             </div>
           </div>
@@ -217,6 +251,14 @@ function PopulationDashboard() {
 
       {/* Main Content */}
       <div className="p-6 space-y-6">
+        <div className="mb-6">
+            <PredictionHeatmap 
+                percentage={94} 
+                title="Population Growth Prediction Confidence" 
+                description={`AI confidence in population expansion trends for ${city}`}
+            />
+        </div>
+
         {/* KPI Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-xl p-6 shadow-sm">
@@ -663,5 +705,3 @@ function PopulationDashboard() {
 }
 
 export default PopulationDashboard;
-
-

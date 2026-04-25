@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import PredictionHeatmap from "../components/PredictionHeatmap";
 
 function Dashboard() {
   const username = localStorage.getItem("user") || "user";
@@ -13,7 +14,7 @@ function Dashboard() {
   // Construct Streamlit URL with token
   useEffect(() => {
     if (token) {
-      const url = `http://localhost:8501/?token=${encodeURIComponent(token)}&username=${encodeURIComponent(username)}`;
+      const url = `http://localhost:8501/?token=${encodeURIComponent(token)}&username=${encodeURIComponent(username)}&embedded=true`;
       console.log("Streamlit URL with token:", url);
       setStreamlitUrl(url);
     }
@@ -25,7 +26,8 @@ function Dashboard() {
         username,
         analysisResult: "User logged out via dashboard",
         actionType: "logout",
-        city: "System"
+        city: "System",
+        pollutionLevel: "Medium"
       }, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -37,6 +39,32 @@ function Dashboard() {
       localStorage.removeItem("user");
       localStorage.removeItem("token");
       navigate("/login");
+    }
+  };
+
+  const handleExportReport = async () => {
+    try {
+      const url = `http://localhost:5000/api/reports/comprehensive?city=Pune&year=${new Date().getFullYear()}`;
+      const response = await axios.get(url, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/pdf'
+        },
+        responseType: 'blob',
+      });
+      
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const urlBlob = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = urlBlob;
+      link.download = `urban_comprehensive_report_Pune_${new Date().toISOString().split('T')[0]}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(urlBlob);
+    } catch (error) {
+      console.error("Export failed:", error);
+      alert("Failed to export report.");
     }
   };
 
@@ -66,7 +94,8 @@ function Dashboard() {
             username,
             analysisResult: "User accessed dashboard",
             actionType: "login",
-            city: "System"
+            city: "System",
+            pollutionLevel: "Medium"
           }, {
             headers: {
               'Authorization': `Bearer ${token}`
@@ -108,7 +137,7 @@ function Dashboard() {
                 <span>📅</span>
                 <span>This Month</span>
               </button>
-              <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2">
+              <button onClick={handleExportReport} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2">
                 <span>📥</span>
                 <span>Export Report</span>
               </button>
@@ -122,7 +151,6 @@ function Dashboard() {
             </div>
           </div>
         </div>
-
         <div className="px-6 pb-4">
           <div className="flex space-x-1 bg-gray-100 rounded-xl p-1">
             {["overview", "population", "infrastructure", "environment", "reports"].map((tab) => (
@@ -130,8 +158,8 @@ function Dashboard() {
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all ${activeTab === tab
-                  ? "bg-white text-blue-600 shadow-sm"
-                  : "text-gray-600 hover:text-gray-900"
+                    ? "bg-white text-blue-600 shadow-sm"
+                    : "text-gray-600 hover:text-gray-900"
                   }`}
               >
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -140,9 +168,16 @@ function Dashboard() {
           </div>
         </div>
       </div>
-
       <div className="flex-1 overflow-auto p-6">
-        {/* Streamlit Dashboard with token parameter */}
+        <div className="mb-6">
+          <PredictionHeatmap 
+            percentage={88} 
+            title="Urban Growth Prediction Confidence" 
+            description="Based on historical data and deep learning U-Net model analysis for comprehensive urban trends"
+          />
+        </div>
+        
+        {/* Streamlit Dashboard with auto-login via token */}
         <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
           <div className="border-b border-gray-200 px-6 py-4 bg-gradient-to-r from-gray-50 to-blue-50">
             <div className="flex items-center justify-between">
@@ -150,7 +185,7 @@ function Dashboard() {
                 <h3 className="text-lg font-semibold text-gray-900">Live Urban Analytics Dashboard</h3>
                 <p className="text-sm text-gray-600">Real-time data visualization and predictive analytics</p>
                 <p className="text-xs text-gray-500 mt-1">
-                  Token: {token ? "✅ Present" : "❌ Missing"} | User: {username}
+                  🔐 Auto-authenticated | User: {username}
                 </p>
               </div>
               <div className="flex items-center space-x-2">
@@ -159,7 +194,6 @@ function Dashboard() {
               </div>
             </div>
           </div>
-
           {streamlitUrl ? (
             <iframe
               src={streamlitUrl}
@@ -169,7 +203,7 @@ function Dashboard() {
               title="Streamlit Dashboard"
               sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
               allow="camera; microphone; geolocation"
-              onLoad={() => console.log("Streamlit iframe loaded")}
+              onLoad={() => console.log("Streamlit iframe loaded with auto-auth")}
               onError={(e) => console.error("Iframe error:", e)}
             />
           ) : (
