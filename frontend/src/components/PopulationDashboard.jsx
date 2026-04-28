@@ -236,7 +236,10 @@ function PopulationDashboard() {
             {["overview", "trends", "age", "prediction", "comparison"].map((tab) => (
               <button
                 key={tab}
-                onClick={() => setActiveTab(tab)}
+                onClick={() => {
+                  setActiveTab(tab);
+                  document.getElementById(tab)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
                 className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all ${activeTab === tab
                     ? "bg-white text-blue-600 shadow-sm"
                     : "text-gray-600 hover:text-gray-900"
@@ -260,7 +263,7 @@ function PopulationDashboard() {
         </div>
 
         {/* KPI Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div id="overview" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-xl p-6 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
@@ -327,7 +330,7 @@ function PopulationDashboard() {
         {/* Charts Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Population Trend Chart */}
-          <div className="bg-white rounded-xl shadow-lg p-6">
+          <div id="trends" className="bg-white rounded-xl shadow-lg p-6 scroll-mt-6">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-lg font-semibold text-gray-900">Population Growth Trend</h3>
               <div className="flex items-center space-x-2 text-sm">
@@ -399,7 +402,7 @@ function PopulationDashboard() {
           </div>
 
           {/* Age Distribution Chart */}
-          <div className="bg-white rounded-xl shadow-lg p-6">
+          <div id="age" className="bg-white rounded-xl shadow-lg p-6 scroll-mt-6">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-lg font-semibold text-gray-900">Age Distribution (Latest Year)</h3>
               <div className="text-sm text-gray-600">
@@ -451,7 +454,7 @@ function PopulationDashboard() {
         </div>
 
         {/* Prediction Section */}
-        <div className="bg-white rounded-xl shadow-lg p-6">
+        <div id="prediction" className="bg-white rounded-xl shadow-lg p-6 scroll-mt-6">
           <div className="flex justify-between items-center mb-6">
             <div>
               <h3 className="text-lg font-semibold text-gray-900">Population Prediction</h3>
@@ -619,7 +622,7 @@ function PopulationDashboard() {
         </div>
 
         {/* Data Table */}
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div id="comparison" className="bg-white rounded-xl shadow-lg overflow-hidden scroll-mt-6">
           <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
             <h3 className="text-lg font-semibold text-gray-900">Historical Population Data</h3>
             <p className="text-sm text-gray-600">Detailed records for {city} (Real Data from Excel)</p>

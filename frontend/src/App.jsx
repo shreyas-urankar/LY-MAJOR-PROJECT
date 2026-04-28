@@ -13,11 +13,13 @@ import Environment from "./pages/Environment";
 import Transport from "./pages/Transport";
 import HeatmapComparison from "./pages/HeatmapComparison";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Chatbot from "./components/Chatbot";
 
 function App() {
   return (
     <Router>
       <div className="min-h-screen flex flex-col gradient-bg">
+        <Chatbot />
         <Routes>
           {/* Redirect root to login */}
           <Route path="/" element={<Navigate to="/login" replace />} />

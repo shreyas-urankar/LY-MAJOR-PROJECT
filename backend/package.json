@@ -25,6 +25,9 @@
   "license": "ISC",
   "description": "Backend for AI-Powered Urban Growth Prediction System",
   "dependencies": {
+    "@langchain/google-genai": "^2.1.29",
+    "@langchain/mongodb": "^1.1.1",
+    "@langchain/openai": "^1.4.5",
     "axios": "^1.13.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.4",
@@ -35,6 +38,7 @@
     "jsonwebtoken": "^9.0.3",
     "jspdf": "^4.0.0",
     "jspdf-autotable": "^5.0.7",
+    "langchain": "^1.3.5",
     "mongoose": "^8.21.0",
     "morgan": "^1.10.1",
     "xlsx": "^0.18.5"

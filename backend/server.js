@@ -11,6 +11,7 @@ import populationRoutes from "./routes/populationRoutes.js";
 import transportRoutes from "./routes/transportRoutes.js";
 import reportRoutes from "./routes/reportRoutes.js";
 import environmentRoutes from "./routes/environmentRoutes.js";
+import ragRoutes from "./routes/ragRoutes.js";
 
 dotenv.config();
 
@@ -53,6 +54,7 @@ app.use("/api/population", populationRoutes);
 app.use("/api/transport", transportRoutes);
 app.use("/api/reports", reportRoutes);
 app.use("/api/environment", environmentRoutes);
+app.use("/api/rag", ragRoutes);
 
 // Error handling
 app.use((err, req, res, next) => {

@@ -1,5 +1,6 @@
 // controllers/dataController.js
 import Data from "../models/dataModel.js";
+import { generateDocumentSummary, generateEmbeddingForText } from "./ragController.js";
 
 // ✅ Save prediction / urban data
 export const saveData = async (req, res) => {
@@ -40,6 +41,17 @@ export const saveData = async (req, res) => {
       prediction,
       urbanData,
     });
+
+    // Generate vector embedding for RAG
+    try {
+      if (process.env.GOOGLE_API_KEY) {
+        const summaryText = generateDocumentSummary(newData);
+        const vector = await generateEmbeddingForText(summaryText);
+        newData.embedding = vector;
+      }
+    } catch (embErr) {
+      console.warn("⚠️ Failed to generate embedding for new data:", embErr.message);
+    }
 
     await newData.save();
 

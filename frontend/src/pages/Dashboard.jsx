@@ -153,16 +153,24 @@ function Dashboard() {
         </div>
         <div className="px-6 pb-4">
           <div className="flex space-x-1 bg-gray-100 rounded-xl p-1">
-            {["overview", "population", "infrastructure", "environment", "reports"].map((tab) => (
+            {["overview", "population", "infrastructure", "environment", "reports", "heatmap"].map((tab) => (
               <button
                 key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all ${activeTab === tab
+                onClick={() => {
+                  if (tab === "overview") {
+                    setActiveTab("overview");
+                  } else if (tab === "heatmap") {
+                    navigate("/heatmap");
+                  } else {
+                    navigate(`/${tab}`);
+                  }
+                }}
+                className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all ${activeTab === tab && tab === "overview"
                     ? "bg-white text-blue-600 shadow-sm"
                     : "text-gray-600 hover:text-gray-900"
                   }`}
               >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                {tab === "heatmap" ? "Zone Heatmap" : tab.charAt(0).toUpperCase() + tab.slice(1)}
               </button>
             ))}
           </div>

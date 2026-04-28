@@ -82,6 +82,11 @@ const dataSchema = new mongoose.Schema({
     trafficIndex: { type: Number },
     housingIndex: { type: Number },
     employmentRate: { type: Number }
+  },
+
+  embedding: {
+    type: [Number], // Array of floats from OpenAI embeddings
+    default: []
   }
 
 }, {

@@ -11,8 +11,10 @@ An **AI-Powered Urban Growth Prediction System** built to monitor and predict ur
 ## ✨ Features
 
 - **🧠 Advanced AI Predictions:** Utilizes a U-Net deep learning model to predict urban growth and expansion patterns from satellite imagery.
-- **📊 Interactive Dashboard:** A beautiful React-based dashboard with real-time analytics, charts (Recharts/MUI), and interactive maps (Leaflet).
-- **🔐 Secure Authentication:** JWT-based user authentication and authorization.
+- **🤖 RAG AI Assistant:** Integrated Google Gemini-powered Chatbot with Vector Search to instantly answer questions based on your live MongoDB dashboard data.
+- **📊 Interactive Dashboard:** A beautiful React-based dashboard with real-time analytics across multiple sectors (Population, Infrastructure, Environment, Transport).
+- **🗺️ Zone Heatmap:** Dedicated visual heatmap dashboard to analyze spatial zone data.
+- **🔐 Secure Authentication:** JWT-based user authentication and authorization with Account Recovery mechanisms.
 - **📄 Report Generation:** Generate and download comprehensive PDF reports of urban data and predictions.
 - **🌍 System Integration:** Seamless auto-login integration between the React Dashboard and the Streamlit Analytics App.
 
